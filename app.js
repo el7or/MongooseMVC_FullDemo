@@ -73,9 +73,6 @@ app.use(rolesRoutes);
 app.use(errorsController.get404);
 app.use(errorsController.get500);
 
-mongoose
-    .connect(MONGODB_URI)
-    .then(result => {
-        app.listen(port, () => console.log(`app listening on http://localhost:${port}`));
-    })
-    .catch(err => console.error(err));
+mongoose.connect(MONGODB_URI).then(result => {
+    app.listen(port, () => console.log(`app listening on http://localhost:${port}`));
+}).catch(err => console.error(err));
