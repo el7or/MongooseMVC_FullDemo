@@ -16,7 +16,7 @@ Using the Model-View-Controller (MVC) Pattern
 
 Using Node.js with NoSQL (MongoDB) and Mongoose
 
-Working with Sessions & Cookies
+Working with Sessions
 
 User Authentication and Authorization
 
