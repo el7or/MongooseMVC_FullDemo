@@ -1,0 +1,40 @@
+<%- include('../includes/header.ejs') %>
+
+  <main>
+    <h1>Users</h1>
+    <div class="card__actions">
+      <a href="/add-user" class="btn">Add New User</a>
+    </div>
+    <% if (users.length> 0) { %>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.forEach(user=> { %>
+            <tr>
+              <td>
+                <%= user.name %>
+              </td>
+              <td>
+                <%= user.age %>
+              </td>
+              <td class="card__actions">
+                <a href="/user-details/<%= user._id %>" class="btn">Details</a>
+                <a href="/edit-user/<%= user._id %>" class="btn">Edit</a>
+                <a href="/delete-user/<%= user._id %>" class="btn">Delete</a>
+              </td>
+            </tr>
+            <% }) %>
+        </tbody>
+      </table>
+      <% } else { %>
+        <h3>No Users Found!</h3>
+        <% } %>
+  </main>
+
+  <%- include('../includes/footer.ejs') %>

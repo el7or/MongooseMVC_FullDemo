@@ -1,0 +1,27 @@
+<%- include('../includes/header.ejs') %>
+    <main>
+        <form class="login-form" action="/login" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <div class="form-control">
+                <label for="name">Username</label>
+                <input type="text" name="name" id="name" required minlength="3"
+                    class="<%= validationErrors?.find(e => e.param === 'name') ? 'invalid' : '' %>">
+                <small>
+                    <%= validationErrors?.find(e=> e.param === 'name')?.msg %>
+                </small>
+            </div>
+            <div class="form-control">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required minlength="6"
+                    class="<%= validationErrors?.find(e => e.param === 'password') ? 'invalid' : '' %>">
+                <small>
+                    <%= validationErrors?.find(e=> e.param === 'password')?.msg %>
+                </small>
+            </div>
+            <button class="btn" type="submit">Login</button>
+        </form>
+        <div class="centered">
+            <a href="/reset-password">Reset Password</a>
+        </div>
+    </main>
+    <%- include('../includes/footer.ejs') %>

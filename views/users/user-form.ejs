@@ -1,0 +1,73 @@
+<%- include('../includes/header.ejs') %>
+
+  <main>
+    <form class="user-form" action="<% if (user?._id) { %>/edit-user<% } else { %>/add-user<% } %>" method="POST">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <% if (user?._id) { %>
+        <input type="hidden" name="id" value="<%= user._id %>">
+        <% } %>
+          <div class="form-control">
+            <label for="name">UserName</label>
+            <input type="text" id="name" name="name" required minlength="3"
+              value="<% if (user) { %><%= user.name %><% } %>"
+              class="<%= validationErrors?.find(e => e.param === 'name') ? 'invalid' : '' %>" />
+            <small>
+              <%= validationErrors?.find(e=> e.param === 'name')?.msg %>
+            </small>
+          </div>
+          <div class="form-control">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required minlength="6" autocomplete="false"
+              class="<%= validationErrors?.find(e => e.param === 'password') ? 'invalid' : '' %>" />
+            <small>
+              <%= validationErrors?.find(e=> e.param === 'password')?.msg %>
+            </small>
+          </div>
+          <div class="form-control">
+            <label for="password">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required minlength="6"
+              autocomplete="false"
+              class="<%= validationErrors?.find(e => e.param === 'confirmPassword') ? 'invalid' : '' %>" />
+            <small>
+              <%= validationErrors?.find(e=> e.param === 'confirmPassword')?.msg %>
+            </small>
+          </div>
+          <div class="form-control">
+            <label for="age">Age</label>
+            <input type="number" id="age" name="age" required step="0.1" value="<% if (user) { %><%= user.age %><% } %>"
+              class="<%= validationErrors?.find(e => e.param === 'age') ? 'invalid' : '' %>" />
+            <small>
+              <%= validationErrors?.find(e=> e.param === 'age')?.msg %>
+            </small>
+          </div>
+          <div class="form-control">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="3" minlength="4" maxlength="400"
+              class="<%= validationErrors?.find(e => e.param === 'description') ? 'invalid' : '' %>"><% if (user) { %><%= user.description %><% } %></textarea>
+            <small>
+              <%= validationErrors?.find(e=> e.param === 'description')?.msg %>
+            </small>
+          </div>
+          <div class="form-control">
+            <label for="roleId">Role</label>
+            <select name="roleId" id="roleId" required
+              class="<%= validationErrors?.find(e => e.param === 'roleId') ? 'invalid' : '' %>">
+              <option value="" disabled <%=user?.roleId ? '' : 'selected' %>>Select Role</option>
+              <% roles.forEach(role=> { %>
+                <option value="<%= role._id %>" <%=user && user.roleId?.toString()===role._id.toString() ? 'selected'
+                  : '' %>>
+                  <%= role.name %>
+                </option>
+                <% }) %>
+            </select>
+            <small>
+              <%= validationErrors?.find(e=> e.param === 'roleId')?.msg %>
+            </small>
+          </div>
+          <button class="btn" type="submit">
+            <% if (user?._id) { %>Update User<% } else { %>Add User<% } %>
+          </button>
+    </form>
+  </main>
+
+  <%- include('../includes/footer.ejs') %>

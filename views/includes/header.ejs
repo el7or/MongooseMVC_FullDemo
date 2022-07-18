@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>
+        <%= pageTitle %>
+    </title>
+    <link rel="stylesheet" href="/css/main.css">
+    <% if (path==='/users-list' || path==='/roles-list' ) { %>
+        <link rel="stylesheet" href="/css/user.css">
+        <% } else if (path==='/user-form' || path==='/role-form' || path==='/login' || path==='/reset-password' ||
+            path==='/new-password' ) { %>
+            <link rel="stylesheet" href="/css/forms.css">
+            <% } %>
+</head>
+
+<body>
+    <header class="main-header">
+        <nav class="main-header__nav">
+            <ul class="main-header__item-list">
+                <li class="main-header__item">
+                    <a href="/" class="<%= path === '/' ? 'active' : '' %>">Home Page</a>
+                </li>
+                <% if (isAuthenticated) { %>
+                    <li class="main-header__item">
+                        <a href="/users-list" class="<%= path === '/users-list' ? 'active' : '' %>">Users</a>
+                    </li>
+                    <li class="main-header__item">
+                        <a href="/roles-list" class="<%= path === '/roles-list' ? 'active' : '' %>">Roles</a>
+                    </li>
+                    <% } %>
+            </ul>
+            <ul class="main-header__item-list">
+                <% if (!isAuthenticated) { %>
+                    <li class="main-header__item">
+                        <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
+                    </li>
+                    <% } else { %>
+                        <li class="main-header__item">
+                            <a class="<%= path === '/logout' ? 'active' : '' %>" href="/logout">Logout</a>
+                        </li>
+                        <% } %>
+            </ul>
+        </nav>
+    </header>
+    <% if (flashMessages.success) { %>
+        <div class="flash success">
+            <%= flashMessages.success %>
+        </div>
+        <% } else if (flashMessages.error) { %>
+            <div class="flash error">
+                <%= flashMessages.error %>
+            </div>
+            <% } %>

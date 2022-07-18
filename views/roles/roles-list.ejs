@@ -1,0 +1,43 @@
+<%- include('../includes/header.ejs') %>
+
+    <main>
+        <h1>Roles</h1>
+        <div class="card__actions">
+            <a href="/add-role" class="btn">Add New Role</a>
+        </div>
+        <% if (roles.length> 0) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Users Count</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% roles.forEach(role=> { %>
+                        <tr>
+                            <td>
+                                <%= role.name %>
+                            </td>
+                            <td>
+                                <%= role.description %>
+                            </td>
+                            <td>
+                                <%= role.usersCount %>
+                            </td>
+                            <td class="card__actions">
+                                <a href="/edit-role/<%= role._id %>" class="btn">Edit</a>
+                                <a href="/delete-role/<%= role._id %>" class="btn">Delete</a>
+                            </td>
+                        </tr>
+                        <% }) %>
+                </tbody>
+            </table>
+            <% } else { %>
+                <h3>No Roles Found!</h3>
+                <% } %>
+    </main>
+
+    <%- include('../includes/footer.ejs') %>
