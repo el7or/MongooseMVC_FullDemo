@@ -117,16 +117,11 @@ exports.postReset = (req, res, next) => {
                     subject: 'Password reset',
                     html: `
                     <p>You requested a password reset</p>
-                    <p>Click this <a href="http://localhost:3000/new-password?token=${token}">link</a> to set a new password.</p>`
-                }).then((error, info) => {
-                    if (error) {
-                        const error = new Error(err);
-                        error.httpStatusCode = 500;
-                        return next(error);
-                    } else {
-                        console.info('Email sent: ' + info.response);
-                    }
-                });
+                    <p>Click this <a href="http://${req.get('host')}/new-password?token=${token}">link</a> to set a new password.</p>`
+                    //<p>Click this <a href="http://localhost:3000/new-password?token=${token}">link</a> to set a new password.</p>`
+                }).then((info) => {
+                    console.info('Email sent: ' + info.response);
+                }).catch(err => console.error(err));
             })
             .catch(err => {
                 const error = new Error(err);

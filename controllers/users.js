@@ -120,7 +120,7 @@ exports.postAddUser = (req, res, next) => {
             })
             .then((user) => {
                 res.redirect('/users-list');
-                return transporter.sendMail({
+                transporter.sendMail({
                     from: 'zizooo.elhor@gmail.com',
                     to: 'zizooo.el7or@gmail.com', //user.email
                     subject: 'Added new user succeeded!',
@@ -128,17 +128,10 @@ exports.postAddUser = (req, res, next) => {
                 <h1>You successfully added new user:</h1>
                 <p><b>Username: </b>${user.name}</p>
                 <p><b>Age: </b>${user.age}</p>`
-                });
+                }).then((info) => {
+                    console.info('Email sent: ' + info.response);
+                }).catch(err => console.error(err));
             })
-            // .then((error, info) => {
-            //     if (error) {
-            //         const error = new Error(err);
-            //         error.httpStatusCode = 500;
-            //         return next(error);
-            //     } else {
-            //         console.info('Email sent: ' + info.response);
-            //     }
-            // })
             .catch(err => {
                 const error = new Error(err);
                 error.httpStatusCode = 500;
