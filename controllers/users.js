@@ -222,20 +222,21 @@ exports.postEditUser = (req, res, next) => {
     }
 };
 
-exports.postDeleteUser = (req, res, next) => {
-    User.findById(req.params.userId)
+exports.deleteUser = (req, res, next) => {
+    const userId = req.params.userId;
+    User.findById(userId)
         .then(user => {
             if (!user) {
                 return next(new Error('User not found.'));
             }
             fileHelper.deleteFile(user.imageUrl);
-            return User.deleteOne({ _id: req.params.userId });
+            return User.deleteOne({ _id: userId });
         })
-        .then(() => res.redirect('/users-list'))
+        .then(() => {
+            res.status(200).json({ message: 'Success!' });
+        })
         .catch(err => {
-            const error = new Error(err);
-            error.httpStatusCode = 500;
-            return next(error);
+            res.status(500).json({ message: 'Deleting user failed.' });
         });
 };
 

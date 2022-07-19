@@ -79,7 +79,7 @@ router.get('/edit-user/:userId', isAuth, usersController.getEditUser);
 router.post('/edit-user', [isAuth, userValidators(false)], usersController.postEditUser);
 
 // /delete-user => GET
-router.get('/delete-user/:userId', [isAuth, isAdmin], usersController.postDeleteUser);
+router.delete('/user/:userId', isAuth, usersController.deleteUser);
 
 // /download-user/1 => GET
 router.get('/download-user/:userId', isAuth, usersController.getPdfUser);

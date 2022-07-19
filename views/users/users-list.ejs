@@ -26,7 +26,9 @@
               <td class="card__actions">
                 <a href="/user-details/<%= user._id %>" class="btn">Details</a>
                 <a href="/edit-user/<%= user._id %>" class="btn">Edit</a>
-                <a href="/delete-user/<%= user._id %>" class="btn">Delete</a>
+                <button class="btn" type="button" onclick="deleteUser(this)">Delete</button>
+                <input type="hidden" name="userId" value="<%= user._id %>">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               </td>
             </tr>
             <% }) %>
@@ -46,3 +48,5 @@
   </main>
 
   <%- include('../includes/footer.ejs') %>
+
+    <script src="/js/api.js"></script>
