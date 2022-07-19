@@ -182,3 +182,11 @@ th {
   background: rgb(255, 176, 176);
   color: red;
 }
+
+.image {
+  height: 20rem;
+}
+
+.image img {
+  height: 100%;
+}

@@ -32,6 +32,9 @@
                         <a href="/roles-list" class="<%= path === '/roles-list' ? 'active' : '' %>">Roles</a>
                     </li>
                     <% } %>
+                        <li class="main-header__item">
+                            <a href="/download-help">Help</a>
+                        </li>
             </ul>
             <ul class="main-header__item-list">
                 <% if (!isAuthenticated) { %>
@@ -46,11 +49,11 @@
             </ul>
         </nav>
     </header>
-    <% if (flashMessages.success) { %>
+    <% if (flashMessages?.success) { %>
         <div class="flash success">
             <%= flashMessages.success %>
         </div>
-        <% } else if (flashMessages.error) { %>
+        <% } else if (flashMessages?.error) { %>
             <div class="flash error">
                 <%= flashMessages.error %>
             </div>

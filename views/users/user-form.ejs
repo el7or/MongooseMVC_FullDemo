@@ -1,7 +1,8 @@
 <%- include('../includes/header.ejs') %>
 
   <main>
-    <form class="user-form" action="<% if (user?._id) { %>/edit-user<% } else { %>/add-user<% } %>" method="POST">
+    <form class="user-form" action="<% if (user?._id) { %>/edit-user<% } else { %>/add-user<% } %>" method="POST"
+      enctype="multipart/form-data">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
       <% if (user?._id) { %>
         <input type="hidden" name="id" value="<%= user._id %>">
@@ -63,6 +64,19 @@
             <small>
               <%= validationErrors?.find(e=> e.param === 'roleId')?.msg %>
             </small>
+          </div>
+          <div class="form-control">
+            <label for="image">Image</label>
+            <input type="file" name="image" id="image" accept="image/*">
+            <small>
+              <%= validationErrors?.find(e=> e.param === 'image')?.msg %>
+            </small>
+            <% if (user?._id && user?.imageUrl) { %>
+              <input type="hidden" name="imageUrl" value="<%= user.imageUrl %>">
+              <div class="image">
+                <img src="/<%= user.imageUrl %>" alt="<%= user.name %>">
+              </div>
+              <% } %>
           </div>
           <button class="btn" type="submit">
             <% if (user?._id) { %>Update User<% } else { %>Add User<% } %>

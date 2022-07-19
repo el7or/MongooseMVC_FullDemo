@@ -22,6 +22,7 @@ const userSchema = new Schema({
         ref: 'Role',
         required: true
     },
+    imageUrl: String,
     resetToken: String,
     resetTokenExpiration: Date
 });

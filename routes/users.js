@@ -1,27 +1,19 @@
 const express = require('express');
-const { body } = require('express-validator');
+const { body, check } = require('express-validator');
 
 const usersController = require('../controllers/users');
 const User = require('../models/user');
 const isAuth = require('../middleware/is-auth');
 const isAdmin = require('../middleware/is-admin');
 const { isEmail, isRequired } = require('../middleware/validators');
+const fileHelper = require('../util/file');
 
 const router = express.Router();
-
-// /users-list => GET
-router.get('/users-list', isAuth, usersController.getAllUsers);
-
-// /users-details => GET
-router.get('/user-details/:userId', isAuth, usersController.getUserById);
-
-// /add-user => GET
-router.get('/add-user', isAuth, usersController.getAddUser);
 
 const userValidators = (isAdd) => {
     return [
         isRequired('name'),
-        isEmail('name'),
+        //isEmail('name'),
         body('name')
             .isLength({ min: 3 })
             .withMessage('This field at least 3 characters.')
@@ -57,10 +49,26 @@ const userValidators = (isAdd) => {
             .withMessage('This field must be between 4 and 400 characters.'),
         body('roleId')
             .not().isEmpty()
-            .withMessage('Please select the role.')
+            .withMessage('Please select the role.'),
+        check('image')
+            .custom((value, { req }) => {
+                if (req.file && req.file.mimetype !== 'image/png' && req.file.mimetype !== 'image/jpg' && req.file.mimetype !== 'image/jpeg') {
+                    fileHelper.deleteFile(req.file.path);
+                    throw new Error('Attached file is not an image!');
+                }
+                return true;
+            })
     ]
 }
 
+// /users-list => GET
+router.get('/users-list', isAuth, usersController.getAllUsers);
+
+// /users-details => GET
+router.get('/user-details/:userId', isAuth, usersController.getUserById);
+
+// /add-user => GET
+router.get('/add-user', isAuth, usersController.getAddUser);
 // /add-user => POST
 router.post('/add-user', [isAuth, userValidators(true)], usersController.postAddUser);
 
@@ -72,6 +80,9 @@ router.post('/edit-user', [isAuth, userValidators(false)], usersController.postE
 
 // /delete-user => GET
 router.get('/delete-user/:userId', [isAuth, isAdmin], usersController.postDeleteUser);
+
+// /download-user/1 => GET
+router.get('/download-user/:userId', isAuth, usersController.getPdfUser);
 
 module.exports = router;
 //exports.routes = router;

@@ -5,8 +5,8 @@
             <%= user.name %>
         </h1>
         <hr>
-        <div>
-            <img src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png" alt="<%= user.name %>">
+        <div class="image">
+            <img src="/<%= user.imageUrl %>" alt="<%= user.name %>">
         </div>
         <h2>
             <%= user.age %>
@@ -20,6 +20,7 @@
         <div class="card__actions">
             <a href="/edit-user/<%= user._id %>" class="btn">Edit</a>
             <a href="/delete-user/<%= user._id %>" class="btn">Delete</a>
+            <a href="/download-user/<%= user._id %>">Download as PDF</a>
         </div>
     </main>
 
