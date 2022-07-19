@@ -190,3 +190,30 @@ th {
 .image img {
   height: 100%;
 }
+
+.pagination {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.pagination a {
+  text-decoration: none;
+  color: #04aa6d;
+  padding: 0.5rem;
+  border: 1px solid #04aa6d;
+  margin: 0 1rem;
+}
+
+.pagination a:hover,
+.pagination a:active,
+.pagination a.active {
+  background: #04aa6d;
+  color: white;
+}
+
+.pagination a.disabled {
+  pointer-events: none;
+  color: grey;
+  color: grey;
+  border: 1px solid grey;
+}

@@ -1,12 +1,29 @@
 const Role = require('../models/role');
 
+const ITEMS_PER_PAGE = 2;
+
 exports.getAllRoles = (req, res, next) => {
-    Role.findWithUsersCount()
+    const page = +req.query.page || 1;
+    let totalItems;
+    Role.find()
+        .countDocuments()
+        .then(numUsers => {
+            totalItems = numUsers;
+            return Role.findWithUsersCount()
+                .skip((page - 1) * ITEMS_PER_PAGE)
+                .limit(ITEMS_PER_PAGE)
+        })
         .then((allRoles) => {
             res.render('roles/roles-list', {
                 path: '/roles-list',
                 pageTitle: 'Roles',
-                roles: allRoles
+                roles: allRoles,
+                currentPage: page,
+                hasNextPage: ITEMS_PER_PAGE * page < totalItems,
+                hasPreviousPage: page > 1,
+                nextPage: page + 1,
+                previousPage: page - 1,
+                lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE)
             });
         }).catch(err => {
             const error = new Error(err);

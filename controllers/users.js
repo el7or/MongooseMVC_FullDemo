@@ -16,15 +16,31 @@ var transporter = nodemailer.createTransport({
         pass: 'weezwkafdhwmpmdk'
     }
 });
+const ITEMS_PER_PAGE = 2;
 
 exports.getAllUsers = (req, res, next) => {
+    const page = +req.query.page || 1;
+    let totalItems;
     User.find()
-        .select('_id name age') // => to select specific fields
+        .countDocuments()
+        .then(numUsers => {
+            totalItems = numUsers;
+            return User.find()
+                .skip((page - 1) * ITEMS_PER_PAGE)
+                .limit(ITEMS_PER_PAGE)
+                .select('_id name age'); // => to select specific fields
+        })
         .then((allUsers) => {
             res.render('users/users-list', {
                 path: '/users-list',
                 pageTitle: 'Users',
-                users: allUsers
+                users: allUsers,
+                currentPage: page,
+                hasNextPage: ITEMS_PER_PAGE * page < totalItems,
+                hasPreviousPage: page > 1,
+                nextPage: page + 1,
+                previousPage: page - 1,
+                lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE)
             });
         }).catch(err => {
             const error = new Error(err);

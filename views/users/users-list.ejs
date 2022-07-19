@@ -31,6 +31,14 @@
             </tr>
             <% }) %>
         </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">
+              <%- include('../includes/pagination.ejs', {currentPage: currentPage, nextPage: nextPage, previousPage:
+                previousPage, lastPage: lastPage, hasNextPage: hasNextPage, hasPreviousPage: hasPreviousPage}) %>
+            </td>
+          </tr>
+        </tfoot>
       </table>
       <% } else { %>
         <h3>No Users Found!</h3>
