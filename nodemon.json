@@ -1,0 +1,8 @@
+{
+    "env": {
+        "MONGO_USER": "node_test",
+        "MONGO_PASSWORD": "node_test",
+        "MONGO_DEFAULT_DATABASE": "test-node",
+        "STRIPE_KEY": "sk_test_T8OE02SHDZWLwk4TYtrWlsat"
+    }
+}
