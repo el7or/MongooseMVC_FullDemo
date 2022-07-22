@@ -11,7 +11,7 @@ const multer = require('multer');
 const helmet = require('helmet');
 const compression = require('compression');
 const morgan = require('morgan');
-const https = require('https');
+//const https = require('https');
 
 const indexRoutes = require('./routes/index');
 const authRoutes = require('./routes/auth');
@@ -52,10 +52,10 @@ const accessLogStream = fs.createWriteStream(
     { flags: 'a' } //=> to append new logs to the file without delete old logs
 );
 
-const httpsOptions = {
-    key: fs.readFileSync('./security/cert.key'),
-    cert: fs.readFileSync('./security/cert.pem')
-}
+// const httpsOptions = {
+//     key: fs.readFileSync('./security/cert.key'),
+//     cert: fs.readFileSync('./security/cert.pem')
+// }
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -113,7 +113,7 @@ app.use(errorsController.get404);
 app.use(errorsController.get500);
 
 mongoose.connect(MONGODB_URI).then(result => {
-    //app.listen(port, () => console.log(`app listening on http://localhost:${port}`));
-    https.createServer(httpsOptions, app) //=> to add SSL to localhost
-        .listen(port, () => { console.log(`app listening on https://localhost:${port}`) })
+    app.listen(port, () => console.log(`app listening on http://localhost:${port}`));
+    // https.createServer(httpsOptions, app) //=> to add SSL to localhost
+    //     .listen(port, () => { console.log(`app listening on https://localhost:${port}`) })
 }).catch(err => console.error(err));
